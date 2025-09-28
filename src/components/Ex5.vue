@@ -14,8 +14,23 @@ export default {
     },
     
     methods: {
-        // Add code here
-
+        cycleTheme() {
+            // Move to the next theme
+            this.currentThemeIndex = (this.currentThemeIndex + 1) % this.themes.length;
+            
+            // Set colors based on theme
+            const theme = this.themes[this.currentThemeIndex];
+            if (theme === 'dark') {
+                this.bgColor = '#333';
+                this.textColor = '#fff';
+            } else if (theme === 'light') {
+                this.bgColor = '#fff';
+                this.textColor = '#000';
+            } else if (theme === 'neon') {
+                this.bgColor = '#39ff14';
+                this.textColor = '#000';
+            }
+        }
     }
 }
 </script>
@@ -39,16 +54,15 @@ export default {
             <input id="imageUrl" v-model="imageUrl" placeholder="https://example.com/me.jpg"><br><br>
 
             <label>Theme Presets:</label><br>
-            <button class="theme-button">Cycle theme</button> <!-- click button to cycle through the themes -->
-            <!-- Dark theme: background-color: #333, text-color: #fff -->
-            <!-- Light theme: background-color: #fff, text-color: #000  -->
-            <!-- Neon theme: background-color: #39ff14, text-color: #000 -->
-
+            <button class="theme-button" @click="cycleTheme">Cycle theme</button>
         </div>
+
         <!-- Preview Section -->
         <div class="preview-section">
             <h2>Live Preview</h2>
-            <div class="preview-card"> <!-- Add code here to set background color and text color -->
+            <div 
+                class="preview-card" 
+                :style="{ backgroundColor: bgColor, color: textColor }">
                 <img :src="imageUrl" class="preview-img">
                 <h3>{{ name || 'Your Name' }}</h3>
                 <h4>{{ job || 'Job Title' }}</h4>
@@ -59,39 +73,39 @@ export default {
 </template>
 
 <style scoped>
-    .container {
-        display: flex;
-        gap: 20px;
-        padding: 20px;
-        font-family: sans-serif;
-    }
+.container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    font-family: sans-serif;
+}
 
-    .form-section,
-    .preview-section {
-        width: 50%;
-    }
+.form-section,
+.preview-section {
+    width: 50%;
+}
 
-    .preview-card {
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: all 0.3s ease;
-    }
+.preview-card {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+}
 
-    .preview-img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 50%;
-        margin-bottom: 10px;
-    }
+.preview-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
 
-    .theme-button {
-        margin: 5px;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+.theme-button {
+    margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 </style>
